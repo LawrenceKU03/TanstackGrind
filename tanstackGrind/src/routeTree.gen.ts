@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as NestIndexRouteImport } from './routes/nest/index'
 import { Route as NestNewRouteImport } from './routes/nest/new'
+import { Route as UsersUserRouteImport } from './routes/users/$user'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,6 +28,21 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRouteRoute = DashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const NestIndexRoute = NestIndexRouteImport.update({
   id: '/nest/',
   path: '/nest/',
@@ -34,38 +53,80 @@ const NestNewRoute = NestNewRouteImport.update({
   path: '/nest/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsersUserRoute = UsersUserRouteImport.update({
+  id: '/users/$user',
+  path: '/users/$user',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
+  '/users/$user': typeof UsersUserRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/nest/': typeof NestIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
+  '/users/$user': typeof UsersUserRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/nest': typeof NestIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
+  '/users/$user': typeof UsersUserRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/nest/': typeof NestIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/nest/new' | '/nest/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/about'
+    | '/dashboard/settings'
+    | '/nest/new'
+    | '/users/$user'
+    | '/dashboard/'
+    | '/nest/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/nest/new' | '/nest'
-  id: '__root__' | '/' | '/about' | '/nest/new' | '/nest/'
+  to:
+    | '/'
+    | '/about'
+    | '/dashboard/settings'
+    | '/nest/new'
+    | '/users/$user'
+    | '/dashboard'
+    | '/nest'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/about'
+    | '/dashboard/settings'
+    | '/nest/new'
+    | '/users/$user'
+    | '/dashboard/'
+    | '/nest/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   NestNewRoute: typeof NestNewRoute
+  UsersUserRoute: typeof UsersUserRoute
   NestIndexRoute: typeof NestIndexRoute
 }
 
@@ -85,6 +146,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/nest/': {
       id: '/nest/'
       path: '/nest'
@@ -99,13 +181,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NestNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/users/$user': {
+      id: '/users/$user'
+      path: '/users/$user'
+      fullPath: '/users/$user'
+      preLoaderRoute: typeof UsersUserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface DashboardRouteRouteChildren {
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   NestNewRoute: NestNewRoute,
+  UsersUserRoute: UsersUserRoute,
   NestIndexRoute: NestIndexRoute,
 }
 export const routeTree = rootRouteImport
