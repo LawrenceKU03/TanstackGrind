@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as NestIndexRouteImport } from './routes/nest/index'
+import { Route as NestNewRouteImport } from './routes/nest/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NestIndexRoute = NestIndexRouteImport.update({
+  id: '/nest/',
+  path: '/nest/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NestNewRoute = NestNewRouteImport.update({
+  id: '/nest/new',
+  path: '/nest/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/nest/new': typeof NestNewRoute
+  '/nest/': typeof NestIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/nest/new': typeof NestNewRoute
+  '/nest': typeof NestIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/nest/new': typeof NestNewRoute
+  '/nest/': typeof NestIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/about' | '/nest/new' | '/nest/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/about' | '/nest/new' | '/nest'
+  id: '__root__' | '/' | '/about' | '/nest/new' | '/nest/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  NestNewRoute: typeof NestNewRoute
+  NestIndexRoute: typeof NestIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nest/': {
+      id: '/nest/'
+      path: '/nest'
+      fullPath: '/nest/'
+      preLoaderRoute: typeof NestIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nest/new': {
+      id: '/nest/new'
+      path: '/nest/new'
+      fullPath: '/nest/new'
+      preLoaderRoute: typeof NestNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  NestNewRoute: NestNewRoute,
+  NestIndexRoute: NestIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
