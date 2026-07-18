@@ -10,43 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ComponentsSkillRouteImport } from './routes/components/Skill'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsSkillRoute = ComponentsSkillRouteImport.update({
-  id: '/components/Skill',
-  path: '/components/Skill',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/components/Skill': typeof ComponentsSkillRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/components/Skill': typeof ComponentsSkillRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/components/Skill': typeof ComponentsSkillRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/components/Skill'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/components/Skill'
-  id: '__root__' | '/' | '/components/Skill'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ComponentsSkillRoute: typeof ComponentsSkillRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,19 +48,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components/Skill': {
-      id: '/components/Skill'
-      path: '/components/Skill'
-      fullPath: '/components/Skill'
-      preLoaderRoute: typeof ComponentsSkillRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ComponentsSkillRoute: ComponentsSkillRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
