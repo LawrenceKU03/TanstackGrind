@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import SkillCard from "./components/SkillCard";
+import { getPokemonFn } from "#/server/getPokemon";
 
 export const Route = createFileRoute("/")({
 	component: Home,
 	loader: async () => {
-		const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
-		const data = await res.json();
-		return data;
+		const res = await getPokemonFn();
+		return res;
 	},
 	errorComponent: ({ error }) => {
 		return <p>Oops {error.message}</p>;
