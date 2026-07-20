@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as FavPokeRouteImport } from './routes/FavPoke'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as ApiHelloRouteImport } from './routes/api/hello'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as NestIndexRouteImport } from './routes/nest/index'
@@ -37,6 +38,11 @@ const AboutRoute = AboutRouteImport.update({
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHelloRoute = ApiHelloRouteImport.update({
+  id: '/api/hello',
+  path: '/api/hello',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/FavPoke': typeof FavPokeRoute
   '/about': typeof AboutRoute
+  '/api/hello': typeof ApiHelloRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
   '/users/$user': typeof UsersUserRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/FavPoke': typeof FavPokeRoute
   '/about': typeof AboutRoute
+  '/api/hello': typeof ApiHelloRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
   '/users/$user': typeof UsersUserRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/FavPoke': typeof FavPokeRoute
   '/about': typeof AboutRoute
+  '/api/hello': typeof ApiHelloRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
   '/users/$user': typeof UsersUserRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/FavPoke'
     | '/about'
+    | '/api/hello'
     | '/dashboard/settings'
     | '/nest/new'
     | '/users/$user'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
     | '/'
     | '/FavPoke'
     | '/about'
+    | '/api/hello'
     | '/dashboard/settings'
     | '/nest/new'
     | '/users/$user'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/FavPoke'
     | '/about'
+    | '/api/hello'
     | '/dashboard/settings'
     | '/nest/new'
     | '/users/$user'
@@ -138,6 +150,7 @@ export interface RootRouteChildren {
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   FavPokeRoute: typeof FavPokeRoute
   AboutRoute: typeof AboutRoute
+  ApiHelloRoute: typeof ApiHelloRoute
   NestNewRoute: typeof NestNewRoute
   UsersUserRoute: typeof UsersUserRoute
   NestIndexRoute: typeof NestIndexRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/hello': {
+      id: '/api/hello'
+      path: '/api/hello'
+      fullPath: '/api/hello'
+      preLoaderRoute: typeof ApiHelloRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -230,6 +250,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   FavPokeRoute: FavPokeRoute,
   AboutRoute: AboutRoute,
+  ApiHelloRoute: ApiHelloRoute,
   NestNewRoute: NestNewRoute,
   UsersUserRoute: UsersUserRoute,
   NestIndexRoute: NestIndexRoute,
