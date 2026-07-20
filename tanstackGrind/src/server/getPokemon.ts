@@ -12,7 +12,7 @@ export const getPokemonFn = createServerFn({ method: "GET" }).handler(
 export const postPokemonFn = createServerFn({ method: "POST" })
 	.inputValidator((name: string) => name)
 	.handler(async ({ data }) => {
-		console.log("HELLO WORLD POSTING ON THE SERVER");
+		console.log("HELLO WORLD POSTING ON THE SERVER", data);
 		await new Promise((resolve) => setTimeout(resolve, 3000));
 		return { success: true, saved: data };
 	});

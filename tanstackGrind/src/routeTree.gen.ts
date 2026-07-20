@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FavPokeRouteImport } from './routes/FavPoke'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
@@ -21,6 +22,11 @@ import { Route as UsersUserRouteImport } from './routes/users/$user'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavPokeRoute = FavPokeRouteImport.update({
+  id: '/FavPoke',
+  path: '/FavPoke',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -62,6 +68,7 @@ const UsersUserRoute = UsersUserRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/FavPoke': typeof FavPokeRoute
   '/about': typeof AboutRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/FavPoke': typeof FavPokeRoute
   '/about': typeof AboutRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
@@ -82,6 +90,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/FavPoke': typeof FavPokeRoute
   '/about': typeof AboutRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/nest/new': typeof NestNewRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/FavPoke'
     | '/about'
     | '/dashboard/settings'
     | '/nest/new'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/FavPoke'
     | '/about'
     | '/dashboard/settings'
     | '/nest/new'
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/FavPoke'
     | '/about'
     | '/dashboard/settings'
     | '/nest/new'
@@ -124,6 +136,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  FavPokeRoute: typeof FavPokeRoute
   AboutRoute: typeof AboutRoute
   NestNewRoute: typeof NestNewRoute
   UsersUserRoute: typeof UsersUserRoute
@@ -137,6 +150,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/FavPoke': {
+      id: '/FavPoke'
+      path: '/FavPoke'
+      fullPath: '/FavPoke'
+      preLoaderRoute: typeof FavPokeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -208,6 +228,7 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  FavPokeRoute: FavPokeRoute,
   AboutRoute: AboutRoute,
   NestNewRoute: NestNewRoute,
   UsersUserRoute: UsersUserRoute,
